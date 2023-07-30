@@ -1,20 +1,15 @@
 package com.teleco.minimus.entities;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Carta {
 
     private char denominacion;      // 1, 2, 3, 4, 5, 6, 7, S, C, R
     private char palo;              // B, E, C, O
     private int puntos;             // 1, 4, 4, 6, 7, 10
 
-    private static final List<Character> denominaciones = Arrays.asList('1', '2', '3', '4', '5', '6', '7', 'S', 'C', 'R');
-    private static final List<Character> palos = Arrays.asList('B', 'C', 'E', 'O');
-
     public Carta (String representacion) {
         
-        if( denominaciones.contains(representacion.charAt(0)) && palos.contains(representacion.charAt(1)) ) {
+        if( Baraja.denominaciones.contains(representacion.charAt(0)) && 
+                Baraja.palos.contains(representacion.charAt(1)) ) {
             this.denominacion = representacion.charAt(0);
             this.palo = representacion.charAt(1);
             this.puntos = calculaPuntos();
@@ -25,7 +20,7 @@ public class Carta {
 
     public Carta (char denominacion, char palo) {
 
-        if( denominaciones.contains(denominacion) && palos.contains(palo) ) {
+        if( Baraja.denominaciones.contains(denominacion) && Baraja.palos.contains(palo) ) {
             this.denominacion = denominacion;
             this.palo = palo;
             this.puntos = calculaPuntos();
@@ -48,6 +43,8 @@ public class Carta {
         char[] representacion = {denominacion, palo};
         return String.valueOf(representacion);
     }
+
+
 
     @Override
     public String toString() {
