@@ -1,6 +1,8 @@
 package com.teleco.minimus.entities;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Pareja {
 
@@ -63,4 +65,13 @@ public class Pareja {
     public void setJugadores(HashMap<Integer, Jugador> jugadores) {
         this.jugadores = jugadores;
     }
+
+
+    @Override
+    public String toString() {
+
+        Iterator<Map.Entry<Integer, Jugador>> iterator = jugadores.entrySet().iterator();
+        return nombre + ": " + iterator.next().getValue() + " y " + iterator.next().getValue();
+    }
+
 }

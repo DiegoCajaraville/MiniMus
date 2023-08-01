@@ -1,6 +1,9 @@
 package com.teleco.minimus.services;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 
 import com.teleco.minimus.entities.Jugador;
 
@@ -23,4 +26,17 @@ public abstract class Jugadores {
         else
             return null;
     }
+
+    public static String display() {
+        String result = "";
+        Iterator<Map.Entry<Integer, Jugador>> iterator = jugadores.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, Jugador> entry = iterator.next();
+            int key = entry.getKey();
+            Jugador value = entry.getValue();
+            result += "Jugador: " + key + ", Nombre: " + value.getNombre() + "\n";
+        }
+        return result;
+    }
+
 }

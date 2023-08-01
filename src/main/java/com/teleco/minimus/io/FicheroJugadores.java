@@ -2,6 +2,7 @@ package com.teleco.minimus.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,12 +19,14 @@ public class FicheroJugadores {
 
     private static final Log LOGGER = LogFactory.getLog(FicheroJugadores.class);
 
-    public boolean lectura(String filePath) {
+    public static boolean lectura(String fileName) {
         
-        File archivo = new File(filePath);
-
         try {
-            List<String> lineas = FileUtils.readLines(archivo, "UTF-8");
+            InputStream archivo = FicheroJugadores.class.getClassLoader().getResourceAsStream(fileName);
+            File tempFile = File.createTempFile("temp_", ".txt");
+            FileUtils.copyInputStreamToFile(archivo, tempFile);
+
+            List<String> lineas = FileUtils.readLines(tempFile, "UTF-8");
 
             for (String linea : lineas) {
                 
@@ -55,17 +58,19 @@ public class FicheroJugadores {
                         jugadores.put(jugador1.getId(), jugador1);
                         jugadores.put(jugador2.getId(), jugador2);
 
-                        Parejas.nuevaPareja(new Pareja( Integer.parseInt(campos[1]), nombrePareja, jugadores));
+                        Parejas.nuevaPareja(new Pareja( Integer.parseInt(campos[1]), nombrePareja, jugadores), jugador1, jugador2);
                     }
                 }
             }
 
-            return true;
-
         } catch (IOException e) {
             LOGGER.error("Error en la lectura del fichero de jugadores");
             return false;
+        } finally {
+
         }
+
+        return true;
     } 
     
 }

@@ -1,8 +1,18 @@
 package com.teleco.minimus;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.commons.cli.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.teleco.minimus.entities.Partida;
+import com.teleco.minimus.io.FicheroJugadas;
+import com.teleco.minimus.io.FicheroJugadores;
+import com.teleco.minimus.services.Jugadores;
+import com.teleco.minimus.services.Parejas;
 
 public class App {
     
@@ -32,20 +42,20 @@ public class App {
 
             // Fichero de jugadores
             if (cmd.hasOption("p")) {
-                outputFile = cmd.getOptionValue("p");
+                playersFile = cmd.getOptionValue("p");
                 LOGGER.info("El fichero de jugadores será: " + playersFile);
             }
 
             // Modo de juego
             if (cmd.hasOption("j")) {
                 LOGGER.info("Se ha seleccionado el modo de juego: 2");
-                modoJuego2();
-
-            } else if (cmd.hasOption("c")) {
+                modoJuego2(cmd.getOptionValue("j"));
+            } 
+            else if (cmd.hasOption("c")) {
                 LOGGER.info("Se ha seleccionado el modo de juego: 3");
                 modoJuego3();
-
-            } else {
+            } 
+            else {
                 LOGGER.info("Se ha seleccionado el modo de juego: 1");
                 modoJuego1();
             }
@@ -57,10 +67,23 @@ public class App {
 
     private static void modoJuego1() {
 
+        Partida modo1 = new Partida();
+
+        FicheroJugadores.lectura(playersFile);
+        // System.out.println(Jugadores.display());
+        // System.out.println(Parejas.display());
+        
+        System.out.println(modo1);
         return;
     }
 
-    private static void modoJuego2() {
+    private static void modoJuego2(String jugadasFile) {
+
+        Partida modo2 = new Partida();
+        
+        FicheroJugadas.lectura(modo2, jugadasFile);
+
+        System.out.println(modo2);
         return;
     }
 
