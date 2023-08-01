@@ -18,11 +18,12 @@ import com.teleco.minimus.entities.Partida;
 
 public class FicheroJugadas {
     
-
     private static final Log LOGGER = LogFactory.getLog(FicheroJugadas.class);
     private static final String MANO_IDENTIFIER = "*";
 
-    public static boolean lectura(Partida partida, String fileName) {
+    public static ArrayList<Jugada> lectura(String fileName) {
+
+        ArrayList<Jugada> jugadas = new ArrayList<Jugada>();
         
         try {
             InputStream archivo = FicheroJugadores.class.getClassLoader().getResourceAsStream(fileName);
@@ -54,25 +55,39 @@ public class FicheroJugadas {
                     
                     jugada.setNuevasCartas(cartas);
 
-                    if(MANO_IDENTIFIER.equals(simbolo) && partida.getJugadas().size() == 0) 
+                    if(MANO_IDENTIFIER.equals(simbolo) && jugadas.size() == 0) 
                         jugada.setMano(Jugada.getManoByIndex(contador));
                     
                     contador++;
                 }
 
-                if( partida.getJugadas().size() != 0 && jugada.getMano() == null ) {
-                    String manoAnterior = partida.getJugadas().get( partida.getJugadas().size() -1 ).getMano();
+                if( jugadas.size() != 0 && jugada.getMano() == null ) {
+                    String manoAnterior = jugadas.get( jugadas.size() -1 ).getMano();
                     jugada.setSiguienteMano(manoAnterior);
                 }
 
-                partida.getJugadas().add(jugada);
+                jugadas.add(jugada);
             }
 
         } catch (IOException e) {
             LOGGER.error("Error en la lectura del fichero de jugadas");
-            return false;
+            return null;
         } finally {
             
+        }
+
+        return jugadas;
+    } 
+
+
+    public static boolean escritura(String contenido, String fileName) {
+        
+        try {
+            FileUtils.writeStringToFile(new File("./src/main/resources/results/" + fileName), contenido, "UTF-8");
+        } catch (IOException e) {
+            LOGGER.error("Error en la escritura del fichero de jugadores");
+            return false;
+        } finally {
         }
 
         return true;

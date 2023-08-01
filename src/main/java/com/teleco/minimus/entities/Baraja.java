@@ -19,11 +19,28 @@ public class Baraja {
 
     private void inicializaBaraja(){
         
-        for(Character j : palos) {
-            for(Character i : denominaciones)
-                cartas.add(new Carta(denominaciones.get(i), palos.get(j)));
+        for(Character palo : palos) {
+            for(Character denominacion : denominaciones)
+                cartas.add(new Carta(denominacion, palo));
         }
         return;
+    }
+
+    public ArrayList<Carta> getCartas(int numCartas) {
+
+        desordenaBaraja();
+
+        ArrayList<Carta> setCartas = new ArrayList<Carta>();
+        ArrayList<Carta> copia = new ArrayList<Carta>(cartas);
+
+        for(Carta carta : copia) {
+            setCartas.add(carta);
+            cartas.remove(cartas.indexOf(carta));
+            if(setCartas.size() == numCartas)
+                return setCartas;
+        }
+
+        return null;
     }
     
     public void desordenaBaraja(){

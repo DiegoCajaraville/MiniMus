@@ -5,28 +5,29 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.teleco.minimus.entities.Jugador;
 import com.teleco.minimus.entities.Pareja;
 
 public abstract class Parejas {
 
     private static HashMap<Integer, Pareja> parejas = new HashMap<Integer, Pareja>();
-    //TODO: revisar
     private static ArrayList<Integer> ordenParejas = new ArrayList<Integer>();
 
-    public static boolean nuevaPareja(Pareja pareja, Jugador jugador1, Jugador jugador2) {
+    public static boolean nuevaPareja(Pareja pareja, boolean override) {
+
+        if( override && parejas.containsKey(pareja.getId()) )
+            eliminarPareja(pareja.getId());
         
         // Comprobar que no haya otra pareja con el mismo ID
-        if ( parejas.containsKey(pareja.getId()) )
+        if ( !override && parejas.containsKey(pareja.getId()) )
             return false;
-
+        
         // Comprobar que no haya ningun jugador de otra pareja ya existente
         Iterator<Map.Entry<Integer, Pareja>> iterator = parejas.entrySet().iterator();
 
         while (iterator.hasNext()) {
-            HashMap<Integer, Jugador> jugadores = iterator.next().getValue().getJugadores();
+            Pareja temp_pareja = iterator.next().getValue();
 
-            if( jugadores.containsKey(jugador1.getId()) || jugadores.containsKey(jugador2.getId()) )
+            if( temp_pareja.hasJugadorId(pareja.getJugador1().getId()) || temp_pareja.hasJugadorId(pareja.getJugador2().getId()) )
                 return false;
         }
 
@@ -35,37 +36,65 @@ public abstract class Parejas {
         return true;
     }
 
-    // TODO: si hay más de 2 parejas validas
-    public static HashMap<Integer, Pareja> getParejas() {
-        
-        HashMap<Integer, Pareja> setParejas = new HashMap<Integer, Pareja>();
+    public static boolean eliminarPareja(int id) {
 
-        for (Integer id : parejas.keySet()) {
-            setParejas.put(id, parejas.get(id));
-            if ( setParejas.size() == 2 )
-                return setParejas;
+        // Comprobar que exista la pareja
+        if ( !parejas.containsKey(id) )
+            return false;
+        
+        parejas.remove(id);
+        return false;
+    }
+
+    /*
+     * Comprueba si hay alguna pareja que contenga este usuario
+     */
+    public static Integer hasJugadorWithId(int id) {
+
+        Iterator<Map.Entry<Integer, Pareja>> iterator = parejas.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Pareja temp_pareja = iterator.next().getValue();
+
+            if( temp_pareja.hasJugadorId(id) )
+                return temp_pareja.getId();
         }
 
         return null;
     }
 
-    public static String display() {
-        String result = "";
-        Iterator<Map.Entry<Integer, Pareja>> it1 = parejas.entrySet().iterator();
+    public static ArrayList<Pareja> getParejasPartida() {
+        
+        ArrayList<Pareja> parejasPartida = new ArrayList<Pareja>();
 
-        while (it1.hasNext()) {
-            Map.Entry<Integer, Pareja> entry = it1.next();
+        for (Integer id : ordenParejas) {
+            if( parejas.containsKey(id) )
+                parejasPartida.add(parejas.get(id));
+
+            if ( parejasPartida.size() == 2 )
+                return parejasPartida;
+        }
+        return null;
+    }
+
+    public static void clear() {
+        parejas.clear();
+        ordenParejas.clear();
+    }
+
+    public static String dump() {
+        String result = "";
+        Iterator<Map.Entry<Integer, Pareja>> iterator = parejas.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, Pareja> entry = iterator.next();
             int key = entry.getKey();
             Pareja value = entry.getValue();
-            result += "Pareja: " + key + ", Nombre: " + value.getNombre();
+            result += "P " + key + " " + value.getJugador1().getId()
+                    + value.getJugador2().getId() + value.getNombre();
             
-            HashMap<Integer, Jugador> jugadores = value.getJugadores();
-            Iterator<Map.Entry<Integer, Jugador>> it2 = jugadores.entrySet().iterator();
-
-            while (it2.hasNext()) 
-                result += ", Jugador: " + it2.next().getValue().getNombre(); 
-            
-            result += "\n";
+            if( iterator.hasNext() )
+                result += "\n";
         }
 
         return result;

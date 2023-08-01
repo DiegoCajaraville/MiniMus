@@ -2,6 +2,7 @@ package com.teleco.minimus;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.apache.commons.cli.*;
@@ -9,8 +10,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.teleco.minimus.entities.Partida;
+import com.teleco.minimus.io.FicheroComandos;
 import com.teleco.minimus.io.FicheroJugadas;
 import com.teleco.minimus.io.FicheroJugadores;
+import com.teleco.minimus.services.Comandos;
 import com.teleco.minimus.services.Jugadores;
 import com.teleco.minimus.services.Parejas;
 
@@ -49,11 +52,13 @@ public class App {
             // Modo de juego
             if (cmd.hasOption("j")) {
                 LOGGER.info("Se ha seleccionado el modo de juego: 2");
+                LOGGER.info("El fichero de jugadas será: " + cmd.getOptionValue("j"));
                 modoJuego2(cmd.getOptionValue("j"));
             } 
             else if (cmd.hasOption("c")) {
                 LOGGER.info("Se ha seleccionado el modo de juego: 3");
-                modoJuego3();
+                LOGGER.info("El fichero de comandos será: " + cmd.getOptionValue("c"));
+                modoJuego3(cmd.getOptionValue("c"));
             } 
             else {
                 LOGGER.info("Se ha seleccionado el modo de juego: 1");
@@ -69,10 +74,10 @@ public class App {
 
         Partida modo1 = new Partida();
 
-        FicheroJugadores.lectura(playersFile);
-        // System.out.println(Jugadores.display());
-        // System.out.println(Parejas.display());
+        if( playersFile != null )
+            FicheroJugadores.lectura(playersFile, false);
         
+        modo1.setParejasPartida();
         System.out.println(modo1);
         return;
     }
@@ -80,14 +85,25 @@ public class App {
     private static void modoJuego2(String jugadasFile) {
 
         Partida modo2 = new Partida();
-        
-        FicheroJugadas.lectura(modo2, jugadasFile);
 
+        if( playersFile != null )
+            FicheroJugadores.lectura(playersFile, false);
+
+        modo2.setParejasPartida();
+        modo2.setJugadas( FicheroJugadas.lectura(jugadasFile) );
         System.out.println(modo2);
         return;
     }
 
-    private static void modoJuego3() {
+    private static void modoJuego3(String comandosFile) {
+
+        Partida modo3 = new Partida();
+        ArrayList<String> comandos = FicheroComandos.lectura(comandosFile);
+
+        for(String comando : comandos) {
+            String result = Comandos.resolverComando(modo3, comando);
+            System.out.println(result);
+        }
         return;
     }
 }

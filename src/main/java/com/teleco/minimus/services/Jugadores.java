@@ -4,19 +4,36 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-
 import com.teleco.minimus.entities.Jugador;
 
 public abstract class Jugadores {
 
     private static HashMap<Integer, Jugador> jugadores = new HashMap<Integer, Jugador>();
     
-    public static boolean nuevoJugador(Jugador jugador) {
+    public static boolean nuevoJugador(Jugador jugador, boolean override) {
         
-        if ( jugadores.containsKey(jugador.getId()) )
+        if( override && jugadores.containsKey(jugador.getId()) )
+            eliminarJugador(jugador.getId());
+
+        if ( !override && jugadores.containsKey(jugador.getId()) )
             return false;
 
         jugadores.put(jugador.getId(), jugador);
+        return true;
+    }
+
+    public static boolean eliminarJugador(int id) {
+
+        // Comprobamos si existe el jugador
+        if ( !jugadores.containsKey(id) )
+            return false;
+
+        // Eliminamos cualquier pareja creada que tenga este jugador
+        if( Parejas.hasJugadorWithId(id) != null )
+            Parejas.eliminarPareja( Parejas.hasJugadorWithId(id) );
+
+        // Eliminamos jugador
+        jugadores.remove(id);
         return true;
     }
 
@@ -27,14 +44,21 @@ public abstract class Jugadores {
             return null;
     }
 
-    public static String display() {
+    public static void clear() {
+        jugadores.clear();
+    }
+
+    public static String dump() {
         String result = "";
         Iterator<Map.Entry<Integer, Jugador>> iterator = jugadores.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<Integer, Jugador> entry = iterator.next();
             int key = entry.getKey();
             Jugador value = entry.getValue();
-            result += "Jugador: " + key + ", Nombre: " + value.getNombre() + "\n";
+            result += "J " + key + " " + value.getNombre();
+            
+            if( iterator.hasNext() )
+                result += "\n";
         }
         return result;
     }

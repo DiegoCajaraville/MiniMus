@@ -46,22 +46,22 @@ public class Jugada {
         tirada += ("J1PA".equals(mano) ? "*" : "-") + "(";
         for(int i=0; i<cartasJ1PA.size(); i++) {
             if(i==0) tirada += cartasJ1PA.get(0);
-            else tirada += ", " + cartasJ1PA.get(0);
+            else tirada += ", " + cartasJ1PA.get(i);
         }
         tirada += ")" + ("J1PB".equals(mano) ? "*" : "-") + "(";
         for(int i=0; i<cartasJ1PB.size(); i++) {
             if(i==0) tirada += cartasJ1PB.get(0);
-            else tirada += ", " + cartasJ1PB.get(0);
+            else tirada += ", " + cartasJ1PB.get(i);
         }
         tirada += ")" + ("J2PA".equals(mano) ? "*" : "-") + "(";
         for(int i=0; i<cartasJ2PA.size(); i++) {
             if(i==0) tirada += cartasJ2PA.get(0);
-            else tirada += ", " + cartasJ2PA.get(0);
+            else tirada += ", " + cartasJ2PA.get(i);
         }
         tirada += ")" + ("J2PB".equals(mano) ? "*" : "-") + "(";
         for(int i=0; i<cartasJ2PB.size(); i++) {
             if(i==0) tirada += cartasJ2PB.get(0);
-            else tirada += ", " + cartasJ2PB.get(0);
+            else tirada += ", " + cartasJ2PB.get(i);
         }
         tirada += ")";
         

@@ -1,0 +1,2 @@
+GenerateRandomDelivery 10 3 random1.txt
+GenerateRandomDelivery 20 4 random2.txt

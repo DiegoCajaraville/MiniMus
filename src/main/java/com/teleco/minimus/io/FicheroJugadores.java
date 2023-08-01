@@ -19,7 +19,7 @@ public class FicheroJugadores {
 
     private static final Log LOGGER = LogFactory.getLog(FicheroJugadores.class);
 
-    public static boolean lectura(String fileName) {
+    public static boolean lectura(String fileName, boolean override) {
         
         try {
             InputStream archivo = FicheroJugadores.class.getClassLoader().getResourceAsStream(fileName);
@@ -39,7 +39,7 @@ public class FicheroJugadores {
                     for(int j = 3; j < campos.length; j++) 
                         nombreJugador += " " + campos[j];
 
-                    Jugadores.nuevoJugador(new Jugador( Integer.parseInt(campos[1]), nombreJugador));
+                    Jugadores.nuevoJugador(new Jugador( Integer.parseInt(campos[1]), nombreJugador), override);
                 }
 
                 // Pareja
@@ -58,7 +58,7 @@ public class FicheroJugadores {
                         jugadores.put(jugador1.getId(), jugador1);
                         jugadores.put(jugador2.getId(), jugador2);
 
-                        Parejas.nuevaPareja(new Pareja( Integer.parseInt(campos[1]), nombrePareja, jugadores), jugador1, jugador2);
+                        Parejas.nuevaPareja(new Pareja( Integer.parseInt(campos[1]), nombrePareja, jugador1, jugador2), override);
                     }
                 }
             }
@@ -68,6 +68,20 @@ public class FicheroJugadores {
             return false;
         } finally {
 
+        }
+
+        return true;
+    } 
+
+
+    public static boolean escritura(String contenido, String fileName) {
+        
+        try {
+            FileUtils.writeStringToFile(new File("./src/main/resources/results/" + fileName), contenido, "UTF-8");
+        } catch (IOException e) {
+            LOGGER.error("Error en la escritura del fichero de jugadores");
+            return false;
+        } finally {
         }
 
         return true;
