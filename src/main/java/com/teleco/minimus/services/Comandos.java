@@ -1,12 +1,14 @@
 package com.teleco.minimus.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.teleco.minimus.dto.Puntuaciones;
 import com.teleco.minimus.entities.Baraja;
 import com.teleco.minimus.entities.Carta;
 import com.teleco.minimus.entities.Jugada;
@@ -21,7 +23,7 @@ public abstract class Comandos {
 
     private static final Log LOGGER = LogFactory.getLog(Comandos.class);
 
-    public static String resolverComando(Partida partida, String comando) {
+    public static String resolverComando(String comando) {
 
         String[] comandoSplit = comando.split("[ ]");
 
@@ -52,10 +54,10 @@ public abstract class Comandos {
                 return Comandos.comando8(comandoSplit);
             // PlayGame <fichero_jugadas> <fichero_partida>
             case "PlayGame":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando9(comandoSplit);
             // PlayHand <jugada>
             case "PlayHand":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando10(comandoSplit);
             // ResolvePares <jugada>
             case "ResolvePares":
                 //return Comandos.comando1(partida, comandoSplit);
@@ -172,6 +174,58 @@ public abstract class Comandos {
             return String.join(" ", comando) + ": OK.";
         else
             return String.join(" ", comando) + ": FAIL.";
+    }
+
+    private static String comando9(String[] comando) {
+
+        Partida partida = new Partida();
+        partida.setParejasPartida();
+        partida.setJugadas(FicheroJugadas.lectura(comando[1]));
+
+        if( FicheroSalida.escritura(partida.toString(), comando[2]) )
+            return String.join(" ", comando) + ": OK.";
+        else
+            return String.join(" ", comando) + ": FAIL.";
+    }
+
+    private static String comando10(String[] comando) {
+
+        String hand = String.join(" ", Arrays.copyOfRange(comando, 1, comando.length));
+        Jugada jugada = FicheroJugadas.getJugadaByHand(hand);
+
+        return String.join(" ", comando) + ": " + jugada.getResultadoJugada(false, true);
+    }
+
+    private static String comando11(String[] comando) {
+
+        String hand = String.join(" ", Arrays.copyOfRange(comando, 1, comando.length));
+        Jugada jugada = FicheroJugadas.getJugadaByHand(hand);
+
+        return String.join(" ", comando) + ": " + jugada.resolverPares();
+    }
+
+    private static String comando12(String[] comando) {
+
+        String hand = String.join(" ", Arrays.copyOfRange(comando, 1, comando.length));
+        Jugada jugada = FicheroJugadas.getJugadaByHand(hand);
+
+        return String.join(" ", comando) + ": " + jugada.resolverJuego();
+    }
+
+    private static String comando13(String[] comando) {
+
+        String hand = String.join(" ", Arrays.copyOfRange(comando, 1, comando.length));
+        Jugada jugada = FicheroJugadas.getJugadaByHand(hand);
+
+        return String.join(" ", comando) + ": " + jugada.resolverGrande();
+    }
+
+    private static String comando14(String[] comando) {
+
+        String hand = String.join(" ", Arrays.copyOfRange(comando, 1, comando.length));
+        Jugada jugada = FicheroJugadas.getJugadaByHand(hand);
+
+        return String.join(" ", comando) + ": " + jugada.resolverChica();
     }
     
 }

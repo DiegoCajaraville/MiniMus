@@ -76,8 +76,9 @@ public class App {
 
         if( playersFile != null )
             FicheroJugadores.lectura(playersFile, false);
-        
+
         modo1.setParejasPartida();
+        // modo1.hasPartidaCompleta();
         System.out.println(modo1);
         return;
     }
@@ -97,11 +98,10 @@ public class App {
 
     private static void modoJuego3(String comandosFile) {
 
-        Partida modo3 = new Partida();
         ArrayList<String> comandos = FicheroComandos.lectura(comandosFile);
 
         for(String comando : comandos) {
-            String result = Comandos.resolverComando(modo3, comando);
+            String result = Comandos.resolverComando(comando);
             System.out.println(result);
         }
         return;

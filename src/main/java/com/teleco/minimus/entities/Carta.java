@@ -1,6 +1,6 @@
 package com.teleco.minimus.entities;
 
-public class Carta {
+public class Carta implements Comparable<Carta> {
 
     private char denominacion;      // 1, 2, 3, 4, 5, 6, 7, S, C, R
     private char palo;              // B, E, C, O
@@ -42,6 +42,24 @@ public class Carta {
     public String getRepresentacion() {
         char[] representacion = {denominacion, palo};
         return String.valueOf(representacion);
+    }
+
+    @Override
+    public int compareTo (Carta c){
+        
+        int iteratorC1 = 0, iteratorC2 = 0;
+
+        if(this.palo < c.palo) return -1;
+        else if(this.palo > c.palo) return 1;
+        else{
+            for(int ii=0; ii<Baraja.denominaciones.size(); ii++){
+                if(this.denominacion == Baraja.denominaciones.get(ii)) iteratorC1 = ii;
+                if(c.denominacion == Baraja.denominaciones.get(ii)) iteratorC2 = ii;
+            }
+            if(iteratorC1 < iteratorC2) return -1;
+            else if(iteratorC1 > iteratorC2) return 1;
+            else return 0;
+        }
     }
 
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.teleco.minimus.dto.Puntuaciones;
 import com.teleco.minimus.services.Parejas;
 
 public class Partida {
@@ -32,6 +33,23 @@ public class Partida {
             Jugador J2PB = new Jugador(4, "Jugador 2B");
             parejaB = new Pareja(2, "Pareja B", J1PB, J2PB);
         }
+    }
+
+    public boolean hasPartidaCompleta() {
+
+        int puntosPA = 0;
+        int puntosPB = 0;
+
+        for( Jugada jugada : jugadas ) {
+            Puntuaciones puntosJugada = jugada.resolverJugada();
+            puntosPA += puntosJugada.getPuntosPA();
+            puntosPB += puntosJugada.getPuntosPB();
+        }
+
+        if( puntosPA >= 40 || puntosPB >= 40 )
+            return true;
+        else
+            return false;
     }
 
 
@@ -69,8 +87,25 @@ public class Partida {
             result += "Mano: " + parejaB.getJugador2().getNombre() + ".\n";
 
         // Jugadas
-        for( Jugada jugada : jugadas ) 
+        int puntosPA = 0;
+        int puntosPB = 0;
+
+        for( Jugada jugada : jugadas ) {
             result += jugada + "\n";
+            Puntuaciones puntosJugada = jugada.resolverJugada();
+            puntosPA += puntosJugada.getPuntosPA();
+            puntosPB += puntosJugada.getPuntosPB();
+        }
+
+        // Resultado
+        if( puntosPA >= 40 && puntosPA > puntosPB )
+            result += "Gana: " + parejaA.getNombre() + ". Número total de jugadas: " + jugadas.size();
+        else if( puntosPB >= 40 && puntosPB > puntosPA )
+            result += "Gana: " + parejaB.getNombre() + ". Número total de jugadas: " + jugadas.size();
+        else if( puntosPA >= 40 && puntosPB >= 40 && puntosPB == puntosPA )
+            result += "Empate. Número total de jugadas: " + jugadas.size();
+        else if( puntosPA < 40 && puntosPB < 40 )
+            result += "Partida incompleta. Número total de jugadas: " + jugadas.size();
 
         return result;
     }

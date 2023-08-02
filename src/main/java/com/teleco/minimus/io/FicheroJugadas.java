@@ -14,7 +14,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.teleco.minimus.entities.Carta;
 import com.teleco.minimus.entities.Jugada;
-import com.teleco.minimus.entities.Partida;
 
 public class FicheroJugadas {
     
@@ -35,33 +34,9 @@ public class FicheroJugadas {
             // Por cada jugada
             for (String linea : lineas) {
                 
-                Jugada jugada = new Jugada();
+                Jugada jugada = getJugadaByHand(linea);
 
-                Pattern conjuntoPattern = Pattern.compile("([*-])\\((.*?)\\)");
-                Matcher matcher = conjuntoPattern.matcher(linea);
-
-                // Por cada jugador
-                int contador = 0;
-                while (matcher.find()) {
-                    String simbolo = matcher.group(1);
-                    String conjunto = matcher.group(2);
-                    String[] elementos = conjunto.split(", ");
-        
-                    // Procesar cada elemento del conjunto
-                    ArrayList<Carta> cartas = new ArrayList<Carta>();
-
-                    for (String elemento : elementos) 
-                        cartas.add(new Carta(elemento));
-                    
-                    jugada.setNuevasCartas(cartas);
-
-                    if(MANO_IDENTIFIER.equals(simbolo) && jugadas.size() == 0) 
-                        jugada.setMano(Jugada.getManoByIndex(contador));
-                    
-                    contador++;
-                }
-
-                if( jugadas.size() != 0 && jugada.getMano() == null ) {
+                if( jugada.getMano() == null ) {
                     String manoAnterior = jugadas.get( jugadas.size() -1 ).getMano();
                     jugada.setSiguienteMano(manoAnterior);
                 }
@@ -92,4 +67,35 @@ public class FicheroJugadas {
 
         return true;
     } 
+
+    public static Jugada getJugadaByHand(String hand) {
+
+        Jugada jugada = new Jugada();
+
+        Pattern conjuntoPattern = Pattern.compile("([*-])\\((.*?)\\)");
+        Matcher matcher = conjuntoPattern.matcher(hand);
+
+        // Por cada jugador
+        int contador = 0;
+        while (matcher.find()) {
+            String simbolo = matcher.group(1);
+            String conjunto = matcher.group(2);
+            String[] elementos = conjunto.split(", ");
+        
+            // Procesar cada elemento del conjunto
+            ArrayList<Carta> cartas = new ArrayList<Carta>();
+
+            for (String elemento : elementos) 
+                cartas.add(new Carta(elemento));
+            
+            jugada.setNuevasCartas(cartas);
+
+            if(MANO_IDENTIFIER.equals(simbolo)) 
+                jugada.setMano(Jugada.getManoByIndex(contador));
+            
+            contador++;
+        }
+
+        return jugada;
+    }
 }
