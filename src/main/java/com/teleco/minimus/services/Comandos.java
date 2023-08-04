@@ -2,9 +2,6 @@ package com.teleco.minimus.services;
 
 import java.util.Arrays;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.teleco.minimus.entities.Jugada;
 import com.teleco.minimus.entities.Jugador;
 import com.teleco.minimus.entities.Pareja;
@@ -14,8 +11,6 @@ import com.teleco.minimus.io.FicheroJugadores;
 import com.teleco.minimus.io.FicheroSalida;
 
 public abstract class Comandos {
-
-    private static final Log LOGGER = LogFactory.getLog(Comandos.class);
 
     public static String resolverComando(String comando) {
 

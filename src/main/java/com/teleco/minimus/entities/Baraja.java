@@ -47,9 +47,8 @@ public class Baraja {
         return;
     }
 
-    // TODO
     public void ordenaBaraja(){
-        //Collections.sort(cartas);
+        Collections.sort(cartas);
         return;
     }
 
