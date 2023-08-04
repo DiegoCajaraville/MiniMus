@@ -1,9 +1,6 @@
 package com.teleco.minimus;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.logging.Log;
@@ -13,9 +10,8 @@ import com.teleco.minimus.entities.Partida;
 import com.teleco.minimus.io.FicheroComandos;
 import com.teleco.minimus.io.FicheroJugadas;
 import com.teleco.minimus.io.FicheroJugadores;
+import com.teleco.minimus.io.FicheroSalida;
 import com.teleco.minimus.services.Comandos;
-import com.teleco.minimus.services.Jugadores;
-import com.teleco.minimus.services.Parejas;
 
 public class App {
     
@@ -78,8 +74,12 @@ public class App {
             FicheroJugadores.lectura(playersFile, false);
 
         modo1.setParejasPartida();
-        // modo1.hasPartidaCompleta();
-        System.out.println(modo1);
+        modo1.generarPartidaCompleta();
+
+        if( outputFile != null )
+            FicheroSalida.escritura(modo1.toString(), outputFile, false);
+        else
+            System.out.println(modo1);
         return;
     }
 
@@ -92,7 +92,12 @@ public class App {
 
         modo2.setParejasPartida();
         modo2.setJugadas( FicheroJugadas.lectura(jugadasFile) );
-        System.out.println(modo2);
+
+        if( outputFile != null )
+            FicheroSalida.escritura(modo2.toString(), outputFile, false);
+        else
+            System.out.println(modo2);
+
         return;
     }
 
@@ -101,8 +106,14 @@ public class App {
         ArrayList<String> comandos = FicheroComandos.lectura(comandosFile);
 
         for(String comando : comandos) {
-            String result = Comandos.resolverComando(comando);
-            System.out.println(result);
+            if(!comando.startsWith("#")) {
+                String result = Comandos.resolverComando(comando);
+
+                if( outputFile != null )
+                    FicheroSalida.escritura(result+"\n", outputFile, true);
+                else
+                    System.out.println(result);
+            }
         }
         return;
     }

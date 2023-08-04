@@ -1,0 +1,5 @@
+GenerateRandomDelivery 10 3 random1.txt: OK.
+GenerateRandomDelivery 20 4 random2.txt: OK.
+PlayGame cards.txt game4a.txt: OK.
+LoadPlayers players.txt: OK.
+PlayGame cards.txt game4b.txt: OK.

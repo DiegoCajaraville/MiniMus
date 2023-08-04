@@ -1,0 +1,5 @@
+GenerateRandomDelivery 10 3 random1.txt
+GenerateRandomDelivery 20 4 random2.txt
+PlayGame cards.txt game4a.txt
+LoadPlayers players.txt
+PlayGame cards.txt game4b.txt

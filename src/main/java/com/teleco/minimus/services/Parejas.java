@@ -1,15 +1,15 @@
 package com.teleco.minimus.services;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.teleco.minimus.entities.Pareja;
 
 public abstract class Parejas {
 
-    private static HashMap<Integer, Pareja> parejas = new HashMap<Integer, Pareja>();
+    private static TreeMap<Integer, Pareja> parejas = new TreeMap<Integer, Pareja>();
     private static ArrayList<Integer> ordenParejas = new ArrayList<Integer>();
 
     public static boolean nuevaPareja(Pareja pareja, boolean override) {
@@ -83,21 +83,21 @@ public abstract class Parejas {
     }
 
     public static String dump() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         Iterator<Map.Entry<Integer, Pareja>> iterator = parejas.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Map.Entry<Integer, Pareja> entry = iterator.next();
             int key = entry.getKey();
             Pareja value = entry.getValue();
-            result += "P " + key + " " + value.getJugador1().getId()
-                    + value.getJugador2().getId() + value.getNombre();
+            result.append("P " + key + " " + value.getJugador1().getId() + " "); 
+            result.append(value.getJugador2().getId() + " " + value.getNombre());
             
             if( iterator.hasNext() )
-                result += "\n";
+                result.append("\n");
         }
 
-        return result;
+        return result.toString();
     }
     
 }

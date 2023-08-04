@@ -2,7 +2,6 @@ package com.teleco.minimus.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FileUtils;
@@ -18,11 +17,11 @@ public class FicheroComandos {
         ArrayList<String> comandos = null;
         
         try {
-            InputStream archivo = FicheroJugadores.class.getClassLoader().getResourceAsStream(fileName);
-            File tempFile = File.createTempFile("temp_", ".txt");
-            FileUtils.copyInputStreamToFile(archivo, tempFile);
-
-            comandos = (ArrayList<String>) FileUtils.readLines(tempFile, "UTF-8");
+            //InputStream archivo = FicheroJugadores.class.getClassLoader().getResourceAsStream(fileName);
+            //File tempFile = File.createTempFile("temp_", ".txt");
+            //FileUtils.copyInputStreamToFile(archivo, tempFile);
+            File file = new File("./src/main/resources/" + fileName);
+            comandos = (ArrayList<String>) FileUtils.readLines(file, "UTF-8");
 
         } catch (IOException e) {
             LOGGER.error("Error en la lectura del fichero de comandos");

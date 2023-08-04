@@ -6,6 +6,9 @@ public class Puntuaciones {
     private int puntosJ1PB;
     private int puntosJ2PA;
     private int puntosJ2PB;
+
+    public Puntuaciones(){
+    }
     
     /**
      * @param puntosJ1PA

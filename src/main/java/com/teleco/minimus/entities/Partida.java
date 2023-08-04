@@ -1,9 +1,6 @@
 package com.teleco.minimus.entities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.teleco.minimus.dto.Puntuaciones;
 import com.teleco.minimus.services.Parejas;
@@ -35,7 +32,22 @@ public class Partida {
         }
     }
 
-    public boolean hasPartidaCompleta() {
+    public void generarPartidaCompleta() {
+
+        jugadas = new ArrayList<Jugada>();
+        int idMano = 1;
+
+        while(true) {
+            jugadas.add(Jugada.generarJugadaAleatoria(idMano));
+            ++idMano;
+            
+            if(hasPartidaCompleta())
+                break;
+        }
+        return;
+    }
+
+    private boolean hasPartidaCompleta() {
 
         int puntosPA = 0;
         int puntosPB = 0;
@@ -89,23 +101,28 @@ public class Partida {
         // Jugadas
         int puntosPA = 0;
         int puntosPB = 0;
+        int numJugadas = 0;
 
         for( Jugada jugada : jugadas ) {
-            result += jugada + "\n";
             Puntuaciones puntosJugada = jugada.resolverJugada();
             puntosPA += puntosJugada.getPuntosPA();
             puntosPB += puntosJugada.getPuntosPB();
+            ++numJugadas;
+            result += jugada + " - " + puntosPA + " " + puntosPB + "\n";
+
+            if(puntosPA >= 40 || puntosPB >= 40)
+                break;
         }
 
         // Resultado
         if( puntosPA >= 40 && puntosPA > puntosPB )
-            result += "Gana: " + parejaA.getNombre() + ". Número total de jugadas: " + jugadas.size();
+            result += "Gana: " + parejaA.getNombre() + ". Número total de jugadas: " + numJugadas;
         else if( puntosPB >= 40 && puntosPB > puntosPA )
-            result += "Gana: " + parejaB.getNombre() + ". Número total de jugadas: " + jugadas.size();
+            result += "Gana: " + parejaB.getNombre() + ". Número total de jugadas: " + numJugadas;
         else if( puntosPA >= 40 && puntosPB >= 40 && puntosPB == puntosPA )
-            result += "Empate. Número total de jugadas: " + jugadas.size();
+            result += "Empate. Número total de jugadas: " + numJugadas;
         else if( puntosPA < 40 && puntosPB < 40 )
-            result += "Partida incompleta. Número total de jugadas: " + jugadas.size();
+            result += "Partida incompleta. Número total de jugadas: " + numJugadas;
 
         return result;
     }

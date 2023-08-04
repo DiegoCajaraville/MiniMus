@@ -1,0 +1,20 @@
+NewPlayer 10 First Player: OK.
+NewPlayer 20 Second Player: OK.
+NewPlayer 10 Duplicated ID Player: FAIL.
+DeletePlayer 30: FAIL.
+DeletePlayer 20: OK.
+NewPlayer 30 Third Player: OK.
+NewPlayer 40 Fourth Player: OK.
+NewPlayer 50 Fifth Player: OK.
+NewCouple 10 10 30 First Couple: OK.
+NewCouple 20 20 40 Second Couple: FAIL.
+NewCouple 30 10 40 Third Couple: OK.
+NewCouple 40 10 10 Single Member Couple: FAIL.
+NewCouple 10 20 40 First Couple Again: FAIL.
+DeleteCouple 30: OK.
+DeleteCouple 40: FAIL.
+DumpPlayers rplayers3.txt: OK.
+ResetPlayers: OK.
+DumpPlayers rplayers3e.txt: OK.
+LoadPlayers rplayers3.txt: OK.
+DumpPlayers rplayers3d.txt: OK.

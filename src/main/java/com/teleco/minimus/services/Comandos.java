@@ -1,16 +1,10 @@
 package com.teleco.minimus.services;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.teleco.minimus.dto.Puntuaciones;
-import com.teleco.minimus.entities.Baraja;
-import com.teleco.minimus.entities.Carta;
 import com.teleco.minimus.entities.Jugada;
 import com.teleco.minimus.entities.Jugador;
 import com.teleco.minimus.entities.Pareja;
@@ -60,25 +54,25 @@ public abstract class Comandos {
                 return Comandos.comando10(comandoSplit);
             // ResolvePares <jugada>
             case "ResolvePares":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando11(comandoSplit);
             // ResolveJuego <jugada>
             case "ResolveJuego":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando12(comandoSplit);
             // ResolveGrande <jugada>
             case "ResolveGrande":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando13(comandoSplit);
             // ResolveChica <jugada>
             case "ResolveChica":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando14(comandoSplit);
             // StartDelivery <fichero_jugadas>
             case "StartDelivery":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando15(comandoSplit);
             // D <jugada>
             case "D":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando16(comandoSplit);
             // EndDelivery
             case "EndDelivery":
-                //return Comandos.comando1(partida, comandoSplit);
+                return Comandos.comando17(comandoSplit);
             // No existe
             default:
                 return "Este comando no existe";
@@ -160,13 +154,7 @@ public abstract class Comandos {
         String delivery = "";
 
         for(int i=0; i<numJugadas; i++) {
-            Jugada jugada = new Jugada();
-            jugada.setMano(Jugada.getManoByIndex((idMano-1 + i) % 4));
-            
-            Baraja baraja = new Baraja();
-            for(int j=0; j<4; j++)
-                jugada.setNuevasCartas(baraja.getCartas(4));
-
+            Jugada jugada = Jugada.generarJugadaAleatoria(idMano+i);
             delivery += jugada.getTiradaCartas() + "\n";
         }
         
@@ -182,7 +170,7 @@ public abstract class Comandos {
         partida.setParejasPartida();
         partida.setJugadas(FicheroJugadas.lectura(comando[1]));
 
-        if( FicheroSalida.escritura(partida.toString(), comando[2]) )
+        if( FicheroSalida.escritura(partida.toString(), comando[2], false) )
             return String.join(" ", comando) + ": OK.";
         else
             return String.join(" ", comando) + ": FAIL.";
@@ -226,6 +214,36 @@ public abstract class Comandos {
         Jugada jugada = FicheroJugadas.getJugadaByHand(hand);
 
         return String.join(" ", comando) + ": " + jugada.resolverChica();
+    }
+
+    private static String comando15(String[] comando) {
+
+        if(FicheroSalida.openDelivery(comando[1]))
+            return String.join(" ", comando) + ": OK.";
+        else
+            return String.join(" ", comando) + ": FAIL.";
+    }
+
+    private static String comando16(String[] comando) {
+
+        String hand = String.join(" ", Arrays.copyOfRange(comando, 1, comando.length));
+        
+        if(FicheroJugadas.comprobarFormatoHand(hand)) {
+            if(FicheroSalida.escrituraDelivery(hand))
+                return String.join(" ", comando) + ": OK.";
+            else
+                return String.join(" ", comando) + ": FAIL.";
+        }
+        else 
+            return String.join(" ", comando) + ": FAIL.";
+    }
+
+    private static String comando17(String[] comando) {
+
+        if(FicheroSalida.closeDelivery())
+            return String.join(" ", comando) + ": OK.";
+        else
+            return String.join(" ", comando) + ": FAIL.";
     }
     
 }

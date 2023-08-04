@@ -44,24 +44,58 @@ public class Carta implements Comparable<Carta> {
         return String.valueOf(representacion);
     }
 
+    /**
+     * @return the denominacion
+     */
+    public char getDenominacion() {
+        return denominacion;
+    }
+
+    /**
+     * @param denominacion the denominacion to set
+     */
+    public void setDenominacion(char denominacion) {
+        this.denominacion = denominacion;
+    }
+
+    /**
+     * @return the palo
+     */
+    public char getPalo() {
+        return palo;
+    }
+
+    /**
+     * @param palo the palo to set
+     */
+    public void setPalo(char palo) {
+        this.palo = palo;
+    }
+
+    /**
+     * @return the puntos
+     */
+    public int getPuntos() {
+        return puntos;
+    }
+
+    /**
+     * @param puntos the puntos to set
+     */
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
+
     @Override
     public int compareTo (Carta c){
-        
-        int iteratorC1 = 0, iteratorC2 = 0;
-
         if(this.palo < c.palo) return -1;
         else if(this.palo > c.palo) return 1;
-        else{
-            for(int ii=0; ii<Baraja.denominaciones.size(); ii++){
-                if(this.denominacion == Baraja.denominaciones.get(ii)) iteratorC1 = ii;
-                if(c.denominacion == Baraja.denominaciones.get(ii)) iteratorC2 = ii;
-            }
-            if(iteratorC1 < iteratorC2) return -1;
-            else if(iteratorC1 > iteratorC2) return 1;
+        else{            
+            if(Baraja.denominaciones.indexOf(this.denominacion) < Baraja.denominaciones.indexOf(c.denominacion)) return -1;
+            else if(Baraja.denominaciones.indexOf(this.denominacion) > Baraja.denominaciones.indexOf(c.denominacion)) return 1;
             else return 0;
         }
     }
-
 
 
     @Override

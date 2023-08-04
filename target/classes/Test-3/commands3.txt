@@ -1,0 +1,20 @@
+NewPlayer 10 First Player
+NewPlayer 20 Second Player
+NewPlayer 10 Duplicated ID Player
+DeletePlayer 30
+DeletePlayer 20
+NewPlayer 30 Third Player
+NewPlayer 40 Fourth Player
+NewPlayer 50 Fifth Player
+NewCouple 10 10 30 First Couple
+NewCouple 20 20 40 Second Couple
+NewCouple 30 10 40 Third Couple
+NewCouple 40 10 10 Single Member Couple
+NewCouple 10 20 40 First Couple Again
+DeleteCouple 30
+DeleteCouple 40
+DumpPlayers rplayers3.txt
+ResetPlayers
+DumpPlayers rplayers3e.txt
+LoadPlayers rplayers3.txt
+DumpPlayers rplayers3d.txt

@@ -1,0 +1,15 @@
+PlayHand -(3O, RO, RC, 6B)*(7O, 7C, 2E, 2B)-(CC, SC, 5E, 5B)-(3C, RE, RB, 6E): Grande 1 1, Chica 0 3, Pares 3 5, Juego 2 4
+ResolvePares -(3O, RO, RC, 6B)*(7O, 7C, 2E, 2B)-(CC, SC, 5E, 5B)-(3C, RE, RB, 6E): 2 3 1 2 - 3 5
+ResolveJuego -(3O, RO, RC, 6B)*(7O, 7C, 2E, 2B)-(CC, SC, 5E, 5B)-(3C, RE, RB, 6E): 2 2 0 2 - 2 4
+ResolveGrande -(3O, RO, RC, 6B)*(7O, 7C, 2E, 2B)-(CC, SC, 5E, 5B)-(3C, RE, RB, 6E): 1 0 0 1 - 1 1
+ResolveChica -(3O, RO, RC, 6B)*(7O, 7C, 2E, 2B)-(CC, SC, 5E, 5B)-(3C, RE, RB, 6E): 0 3 0 0 - 0 3
+PlayHand -(1O, 2O, 2C, 6B)*(7O, 7C, 4E, 4B)-(CC, SC, 5E, 5B)-(1C, 2E, 2B, 6E): Grande 3 0, Chica 1 1, Pares 3 5, Juego 1 0
+ResolvePares -(1O, 2O, 2C, 6B)*(7O, 7C, 4E, 4B)-(CC, SC, 5E, 5B)-(1C, 2E, 2B, 6E): 2 3 1 2 - 3 5
+ResolveJuego -(1O, 2O, 2C, 6B)*(7O, 7C, 4E, 4B)-(CC, SC, 5E, 5B)-(1C, 2E, 2B, 6E): 0 0 1 0 - 1 0
+ResolveGrande -(1O, 2O, 2C, 6B)*(7O, 7C, 4E, 4B)-(CC, SC, 5E, 5B)-(1C, 2E, 2B, 6E): 0 0 3 0 - 3 0
+ResolveChica -(1O, 2O, 2C, 6B)*(7O, 7C, 4E, 4B)-(CC, SC, 5E, 5B)-(1C, 2E, 2B, 6E): 1 0 0 1 - 1 1
+PlayHand -(RO, RC, RE, 1B)-(SO, SC, SE, SB)-(CC, CE, CB, CO)*(3O, 3C, 3E, 2B): Grande 1 1, Chica 1 1, Pares 5 5, Juego 5 7
+ResolvePares -(RO, RC, RE, 1B)-(SO, SC, SE, SB)-(CC, CE, CB, CO)*(3O, 3C, 3E, 2B): 2 3 3 2 - 5 5
+ResolveJuego -(RO, RC, RE, 1B)-(SO, SC, SE, SB)-(CC, CE, CB, CO)*(3O, 3C, 3E, 2B): 3 2 2 5 - 5 7
+ResolveGrande -(RO, RC, RE, 1B)-(SO, SC, SE, SB)-(CC, CE, CB, CO)*(3O, 3C, 3E, 2B): 1 0 0 1 - 1 1
+ResolveChica -(RO, RC, RE, 1B)-(SO, SC, SE, SB)-(CC, CE, CB, CO)*(3O, 3C, 3E, 2B): 1 0 0 1 - 1 1

@@ -2,7 +2,6 @@ package com.teleco.minimus.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,11 +21,12 @@ public class FicheroJugadores {
     public static boolean lectura(String fileName, boolean override) {
         
         try {
-            InputStream archivo = FicheroJugadores.class.getClassLoader().getResourceAsStream(fileName);
-            File tempFile = File.createTempFile("temp_", ".txt");
-            FileUtils.copyInputStreamToFile(archivo, tempFile);
+            //InputStream archivo = FicheroJugadores.class.getClassLoader().getResourceAsStream(fileName);
+            //File tempFile = File.createTempFile("temp_", ".txt");
+            //FileUtils.copyInputStreamToFile(archivo, tempFile);
 
-            List<String> lineas = FileUtils.readLines(tempFile, "UTF-8");
+            File file = new File("./src/main/resources/" + fileName);
+            List<String> lineas = FileUtils.readLines(file, "UTF-8");
 
             for (String linea : lineas) {
                 
@@ -77,7 +77,7 @@ public class FicheroJugadores {
     public static boolean escritura(String contenido, String fileName) {
         
         try {
-            FileUtils.writeStringToFile(new File("./src/main/resources/results/" + fileName), contenido, "UTF-8");
+            FileUtils.writeStringToFile(new File("./src/main/resources/" + fileName), contenido, "UTF-8");
         } catch (IOException e) {
             LOGGER.error("Error en la escritura del fichero de jugadores");
             return false;
